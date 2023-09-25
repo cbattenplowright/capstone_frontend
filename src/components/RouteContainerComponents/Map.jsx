@@ -48,14 +48,13 @@ const Map = () => {
       ) {
         if (i % 2 === 0) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
-        }
-        if (
+        } else if (
           i % 2 === 1 &&
           i !== routeWaypointsList[routeWaypoint].orderWaypoints.length - 1
         ) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]};`;
         } else {
-          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
+          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]}`;
         }
       }
       url += `?access_token=${mapboxgl.accessToken}`;
