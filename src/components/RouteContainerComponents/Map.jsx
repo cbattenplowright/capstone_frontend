@@ -20,9 +20,8 @@ const Map = () => {
     //IF INDEX IS ODD APPEND ELEMENT AND ADD SEMI COLON
     //Make API fetch request
     //Add route response to routesList
+    let urlList = [];
 
-    // -0.5,6.5;-0.5,6.5;-0.5,6.5;-0.5,6.5;-0.5,6.5;
-    console.log("This is called");
     for (let routeWaypoint in routeWaypointsList) {
       console.log(routeWaypointsList[routeWaypoint]);
       const startLocationLat = routeWaypointsList[routeWaypoint].startLat;
@@ -38,8 +37,10 @@ const Map = () => {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]}`;
         }
       }
-      setRouteUrlList([...routeUrlList, url]);
+      urlList.push(url);
     }
+    console.log("a");
+    setRouteUrlList(urlList);
   };
 
   useEffect(() => {
