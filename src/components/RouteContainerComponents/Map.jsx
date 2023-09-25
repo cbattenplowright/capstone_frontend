@@ -26,6 +26,7 @@ const Map = () => {
       method: "GET"
     });
     const json = await response.json();
+    console.log("This is the json returned from the directions api request");
     console.log(json);
     const data = await json.routes[0];
 
@@ -68,7 +69,40 @@ const Map = () => {
     setRouteUrlList(urlList);
   };
 
-  const createRouteLayerOnMap = () => {};
+  const createRouteLayerOnMap = () => {
+    const route = routeDirections.geometry.coordinates;
+    const geojson = {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: route
+      }
+    };
+
+    // creation of route layer, can amend id for route name and change colours depending
+    if (map.current.getSource("route")) {
+      map.current.getSource("route").setData(geojson);
+    } else {
+      map.current.addLayer({
+        id: "route",
+        type: "line",
+        source: {
+          type: "geojson",
+          data: geojson
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        paint: {
+          "line-color": "#3887be",
+          "line-width": 5,
+          "line-opacity": 0.75
+        }
+      });
+    }
+  };
 
   useEffect(() => {
     fetchRouteWaypointsList();
@@ -84,8 +118,6 @@ const Map = () => {
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
     });
-
-    map.current.on("load", () => {});
   }, []);
 
   // wait to output routeWaypointsList
@@ -95,7 +127,11 @@ const Map = () => {
   }, [routeWaypointsList]);
 
   useEffect(() => {
+    console.log("This is the route directions list/object");
     console.log(routeDirections);
+    map.current.on("load", () => {
+      createRouteLayerOnMap();
+    });
   }, [routeDirections]);
 
   useEffect(() => {
