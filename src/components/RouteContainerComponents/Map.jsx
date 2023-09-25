@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import mapboxgl from "mapbox-gl";
 
 const Map = () => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
+  const [routeDirections, setRouteDirections] = useState([]);
+  mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
+  const mapContainer = useRef(null);
+  const map = useRef(null);
 
   const fetchRouteWaypointsList = async () => {
     const response = await fetch("http://localhost:8080/routes/all/waypoints");
     const data = await response.json();
     setRouteWaypointsList(data);
+  };
+
+  const fetchRouteDirections = async () => {
+    const response = await fetch(routeUrlList[0], { method: "GET" });
+    const json = await response.json();
+    console.log(json);
+    const data = await json.routes[0];
+
+    setRouteDirections(data);
   };
 
   const createDirectionsURL = () => {
@@ -26,17 +40,25 @@ const Map = () => {
       console.log(routeWaypointsList[routeWaypoint]);
       const startLocationLat = routeWaypointsList[routeWaypoint].startLat;
       const startLocationLong = routeWaypointsList[routeWaypoint].startLong;
-      let url = `https://api.mapbox.com/directions/v5/driving/${startLocationLat},${startLocationLong};`;
-      for (let i = 0; i < routeWaypointsList[routeWaypoint].orderWaypoints.length; i++) {
+      let url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocationLat},${startLocationLong};`;
+      for (
+        let i = 0;
+        i < routeWaypointsList[routeWaypoint].orderWaypoints.length;
+        i++
+      ) {
         if (i % 2 === 0) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
         }
-        if (i % 2 === 1 && i !== routeWaypointsList[routeWaypoint].orderWaypoints.length - 1) {
+        if (
+          i % 2 === 1 &&
+          i !== routeWaypointsList[routeWaypoint].orderWaypoints.length - 1
+        ) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]};`;
         } else {
-          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]}`;
+          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
         }
       }
+      url += `?access_token=${mapboxgl.accessToken}`;
       urlList.push(url);
     }
     console.log("a");
@@ -44,8 +66,13 @@ const Map = () => {
   };
 
   useEffect(() => {
+    console.log(mapboxgl.accessToken);
     fetchRouteWaypointsList();
   }, []);
+
+  useEffect(() => {
+    console.log(routeDirections);
+  }, [routeDirections]);
 
   // wait to output routeWaypointsList
   useEffect(() => {
@@ -55,6 +82,7 @@ const Map = () => {
 
   useEffect(() => {
     console.log(routeUrlList);
+    fetchRouteDirections();
   }, [routeUrlList]);
 
   return <></>;
