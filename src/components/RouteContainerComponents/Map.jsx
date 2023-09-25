@@ -61,11 +61,14 @@ const Map = () => {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]}`;
         }
       }
-      url += `?access_token=${mapboxgl.accessToken}`;
+      url += `?overview=full&geometries=geojson`;
+      url += `&access_token=${mapboxgl.accessToken}`;
       urlList.push(url);
     }
     setRouteUrlList(urlList);
   };
+
+  const createRouteLayerOnMap = () => {};
 
   useEffect(() => {
     fetchRouteWaypointsList();
@@ -81,6 +84,8 @@ const Map = () => {
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
     });
+
+    map.current.on("load", () => {});
   }, []);
 
   // wait to output routeWaypointsList
