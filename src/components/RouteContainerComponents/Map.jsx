@@ -70,40 +70,43 @@ const Map = () => {
   };
 
   const createRouteLayerOnMap = () => {
-    const route = routeDirections.geometry.coordinates;
-    const geojson = {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        type: "LineString",
-        coordinates: route
-      }
-    };
-
-    // creation of route layer, can amend id for route name and change colours depending
-    if (map.current.getSource("route")) {
-      map.current.getSource("route").setData(geojson);
-    } else {
-      map.current.addLayer({
-        id: "route",
-        type: "line",
-        source: {
-          type: "geojson",
-          data: geojson
-        },
-        layout: {
-          "line-join": "round",
-          "line-cap": "round"
-        },
-        paint: {
-          "line-color": "#3887be",
-          "line-width": 5,
-          "line-opacity": 0.75
+    if (routeDirections && routeDirections.geometry && routeDirections.geometry.coordinates) {
+      const route = routeDirections.geometry.coordinates;
+      const geojson = {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: route
         }
-      });
+      };
+
+      // creation of route layer, can amend id for route name and change colours depending
+      if (map.current.getSource("route")) {
+        map.current.getSource("route").setData(geojson);
+      } else {
+        map.current.addLayer({
+          id: "route",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: geojson
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round"
+          },
+          paint: {
+            "line-color": "#3887be",
+            "line-width": 5,
+            "line-opacity": 0.75
+          }
+        });
+      }
     }
   };
 
+  // when page loads
   useEffect(() => {
     fetchRouteWaypointsList();
     if (map.current) return;
@@ -127,17 +130,17 @@ const Map = () => {
   }, [routeWaypointsList]);
 
   useEffect(() => {
+    console.log(routeUrlList);
+    fetchRouteDirections();
+  }, [routeUrlList]);
+
+  useEffect(() => {
     console.log("This is the route directions list/object");
     console.log(routeDirections);
     map.current.on("load", () => {
       createRouteLayerOnMap();
     });
   }, [routeDirections]);
-
-  useEffect(() => {
-    console.log(routeUrlList);
-    fetchRouteDirections();
-  }, [routeUrlList]);
 
   return (
     <>
