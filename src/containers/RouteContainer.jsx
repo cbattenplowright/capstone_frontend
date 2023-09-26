@@ -1,6 +1,7 @@
 import Map from "../components/RouteContainerComponents/Map";
 import { useState, useEffect } from "react";
 import RouteList from "../components/RouteContainerComponents/RouteList";
+import SelectedRouteList from "../components/RouteContainerComponents/SelectedRouteList";
 import "./RouteContainer.css";
 
 const RouteContainer = () => {
@@ -40,6 +41,9 @@ const RouteContainer = () => {
       </div>
       <div className="map">
         <Map />
+      </div>
+      <div className="selected-route-list">
+        <SelectedRouteList selectedRoutes={selectedRouteList} />
       </div>
     </div>
   );
