@@ -23,15 +23,16 @@ const RouteContainer = () => {
     );
   };
 
-  useEffect(() => {
-    fetchRoutes();
-  }, []);
+  // useEffect(() => {
+  //   fetchRoutes();
+  // }, []);
   useEffect(() => {
     console.log(selectedRouteList);
   }, [selectedRouteList]);
 
   return (
     <div className="route-container">
+     <div className="route-map">
       <div className="route-list">
         <RouteList
           routes={routeList}
@@ -40,7 +41,8 @@ const RouteContainer = () => {
         />
       </div>
       <div className="map">
-        <Map />
+        <Map fetchRoutes={fetchRoutes}/>
+      </div>
       </div>
       <div className="selected-route-list">
         <SelectedRouteList selectedRoutes={selectedRouteList} />

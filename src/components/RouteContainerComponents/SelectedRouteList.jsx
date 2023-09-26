@@ -1,4 +1,5 @@
 import SelectedRoute from "./SelectedRoute";
+import "./SelectedRouteList.css";
 
 const SelectedRouteList = ({ selectedRoutes }) => {
   const selectedRouteComponents = selectedRoutes.map((route) => {

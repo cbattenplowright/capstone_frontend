@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
 
-const Map = () => {
+const Map = ({fetchRoutes}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
@@ -21,6 +21,15 @@ const Map = () => {
     setRouteWaypointsList(data);
   };
 
+  const updateRouteDistance = async (routeId, distance) => {
+    const response = await fetch(`http://localhost:8080/routes/${routeId}?distance=${distance}`,
+    {
+      method: "PATCH"
+    });
+    const json = await response.json();
+    console.log(json);
+  }
+
   const fetchRouteDirections = async () => {
     const response = await fetch(routeUrlList[0], {
       method: "GET"
@@ -29,6 +38,10 @@ const Map = () => {
     console.log("This is the json returned from the directions api request");
     console.log(json);
     const data = await json.routes[0];
+    const routeDistance = json.routes[0].distance;
+    const {routeId} = routeWaypointsList[0];
+
+    updateRouteDistance(routeId, routeDistance);
 
     setRouteDirections(data);
   };
@@ -137,6 +150,7 @@ const Map = () => {
   useEffect(() => {
     console.log("This is the route directions list/object");
     console.log(routeDirections);
+    fetchRoutes();
     map.current.on("load", () => {
       createRouteLayerOnMap();
     });
