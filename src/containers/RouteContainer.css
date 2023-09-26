@@ -1,0 +1,14 @@
+.route-container {
+    display: flex;
+}
+
+.route-list {
+    flex: 1;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+
+.map {
+    flex: 1;
+    padding: 10px;
+}
