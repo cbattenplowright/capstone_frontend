@@ -1,14 +1,27 @@
+/* RouteContainer.css */
 .route-container {
     display: flex;
+    flex-direction: column;
+    gap: 5vh;
 }
 
 .route-list {
-    flex: 1;
     padding: 10px;
     border-right: 1px solid #ccc;
 }
 
 .map {
-    flex: 1;
+    width: 30vw;
+    flex: 1; /* Takes up remaining vertical space */
     padding: 10px;
+}
+
+.selected-route-list {
+    padding: 10px;
+    grid-column: auto;
+}
+
+.route-map{
+    display: flex;
+    flex-direction: row;
 }
