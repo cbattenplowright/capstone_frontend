@@ -24,6 +24,9 @@ const RouteContainer = () => {
   useEffect(() => {
     fetchRoutes();
   }, []);
+  useEffect(() => {
+    console.log(selectedRouteList);
+  }, [selectedRouteList]);
 
   return (
     <>
