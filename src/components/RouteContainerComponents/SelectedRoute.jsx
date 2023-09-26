@@ -3,7 +3,7 @@ const SelectedRoute = ({ selectedRoute }) => {
   const mappedOrders = orders.map((order) => {
     return (
       <button className="stop-button">
-        <li>stop: {order.id}</li>
+        <li>Stop: {order.id}</li>
       </button>
     );
   });
