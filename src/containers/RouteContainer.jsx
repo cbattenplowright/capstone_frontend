@@ -1,6 +1,7 @@
 import Map from "../components/RouteContainerComponents/Map";
 import { useState, useEffect } from "react";
 import RouteList from "../components/RouteContainerComponents/RouteList";
+import "./RouteContainer.css";
 
 const RouteContainer = () => {
   const [routeList, setRouteList] = useState([]);
@@ -29,14 +30,18 @@ const RouteContainer = () => {
   }, [selectedRouteList]);
 
   return (
-    <>
-      <RouteList
-        routes={routeList}
-        addToSelectedRouteList={addToSelectedRouteList}
-        removeFromSelectedRouteList={removeFromSelectedRouteList}
-      />
-      <Map />
-    </>
+    <div className="route-container">
+      <div className="route-list">
+        <RouteList
+          routes={routeList}
+          addToSelectedRouteList={addToSelectedRouteList}
+          removeFromSelectedRouteList={removeFromSelectedRouteList}
+        />
+      </div>
+      <div className="map">
+        <Map />
+      </div>
+    </div>
   );
 };
 

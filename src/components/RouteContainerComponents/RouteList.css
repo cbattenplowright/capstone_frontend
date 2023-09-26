@@ -1,0 +1,13 @@
+#route {
+    display: flex;
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+  }
+  
+
+  #route p {
+    margin: 0; 
+    padding-right: 10px; 
+  }
+  
