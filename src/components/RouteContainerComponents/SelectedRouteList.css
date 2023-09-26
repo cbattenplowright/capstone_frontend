@@ -1,0 +1,9 @@
+.stop-button {
+    color: aqua;
+    background-color: #2b2b2b;
+
+    &:hover {
+        background-color: #f1f1f1;
+        color: black;
+    }
+}
