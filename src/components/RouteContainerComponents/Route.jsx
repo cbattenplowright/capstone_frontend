@@ -14,10 +14,11 @@ const Route = ({
         removeFromSelectedRouteList={removeFromSelectedRouteList}
       />
 
-      <p> | {route.routeName} | </p>
-      <p> {route.distance} | </p>
-      <p> 3 hours | </p>
-      <p> {route.orders.length} </p>
+      <p>|{route.routeName} | </p>
+      <p>{route.van.driverName} | </p>
+      <p>{route.distance} | </p>
+      <p>3 hours | </p>
+      <p>{route.orders.length} </p>
     </div>
   );
 };
