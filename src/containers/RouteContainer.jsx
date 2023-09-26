@@ -19,6 +19,7 @@ useEffect(() => {
 
   return (
     <>
+      <RouteList routes= {routeList}/>
       <Map />
     </>
   );
