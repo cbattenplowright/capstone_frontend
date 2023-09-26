@@ -1,7 +1,11 @@
 const SelectedRoute = ({ selectedRoute }) => {
   const orders = selectedRoute.orders;
   const mappedOrders = orders.map((order) => {
-    return <li>stop: {order.id}</li>;
+    return (
+      <button className="stop-button">
+        <li>stop: {order.id}</li>
+      </button>
+    );
   });
   return (
     <div id="selected-route">
