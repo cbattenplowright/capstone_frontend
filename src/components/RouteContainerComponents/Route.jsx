@@ -1,13 +1,15 @@
-const Route = ({route}) => {
+import Checkbox from "./Checkbox";
 
-    return (
-        <div id="route">
-            <p> {route.routeName} </p>
-            <p> {route.distance} </p>
-            <p> 3 hours </p>
-            <p> {route.orders.length} </p>
-        </div>
-    )
-}
+const Route = ({ route }) => {
+  return (
+    <div id="route">
+      <Checkbox />
+      <p> {route.routeName} </p>
+      <p> {route.distance} </p>
+      <p> 3 hours </p>
+      <p> {route.orders.length} </p>
+    </div>
+  );
+};
 
 export default Route;
