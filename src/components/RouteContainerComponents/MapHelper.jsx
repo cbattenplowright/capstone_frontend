@@ -47,10 +47,54 @@ const displayDepotPoint = (map, location) => {
     }
 }
 
-const displayWaypoint = (map, lat, lng) => {
-    console.log(lat, lng);
-    const marker = new mapboxgl.Marker().setLngLat([lat, lng]).addTo(map);
-    console.log("waypoint added");
+const displayWaypoint = (map, orderWaypoints) => {
+    let stopCount=1;
+    for (let i = 0; i < orderWaypoints.length; i+=2) {
+        let currentWaypointCoords = [orderWaypoints[i], orderWaypoints[i+1]];
+        console.log(currentWaypointCoords);
+        const waypoint = {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "Point",
+                coordinates: currentWaypointCoords
+              }
+            }
+          ]
+        };
+        if (map.current.getLayer(`Stop${stopCount}`)) {
+          map.current.getSource(`Stop${stopCount}`).setData(waypoint);
+        } else {
+          map.current.addLayer({
+            id: `Stop${stopCount}`,
+            type: "circle",
+            source: {
+              type: "geojson",
+              data: {
+                type: "FeatureCollection",
+                features: [
+                  {
+                    type: "Feature",
+                    properties: {},
+                    geometry: {
+                      type: "Point",
+                      coordinates: currentWaypointCoords
+                    }
+                  }
+                ]
+              }
+            },
+            paint: {
+              "circle-radius": 10,
+              "circle-color": "#98fb98"
+            }
+          });
+        }
+        stopCount++;
+      }
 }
 
 export {displayDepotPoint, displayWaypoint}

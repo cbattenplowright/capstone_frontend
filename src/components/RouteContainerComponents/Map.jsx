@@ -120,7 +120,8 @@ const Map = ({fetchRoutes}) => {
         });
       }
       displayDepotPoint(map, depotLocation);
-      displayWaypoint(map.current, routeWaypointsList[0].orderWaypoints[0], routeWaypointsList[0].orderWaypoints[1]);
+      console.log(routeWaypointsList[0].orderWaypoints);
+      displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
     }
   };
 
