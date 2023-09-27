@@ -110,7 +110,7 @@ const Map = ({map, fetchRoutes}) => {
           },
           layout: {
             "line-join": "round",
-            "line-cap": "round"
+            "line-cap": "round",
           },
           paint: {
             "line-color": "#3887be",

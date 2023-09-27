@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const Checkbox = ({
   route,
+  routeLength,
   addToSelectedRouteList,
   removeFromSelectedRouteList,
   showLayer,
@@ -11,9 +12,17 @@ const Checkbox = ({
   const handleOnChange = () => {
     if (!isChecked) {
       addToSelectedRouteList(route);
+      for(let i = 0; i<routeLength; i++){
+        showLayer("Stop" + JSON.stringify(i+1));
+        showLayer("Stop" + JSON.stringify(i+1)+ "-label");
+      }
       showLayer("route");
     } else {
       removeFromSelectedRouteList(route);
+      for(let i = 0; i<routeLength; i++){
+        hideLayer("Stop" + JSON.stringify(i+1));
+        hideLayer("Stop" + JSON.stringify(i+1)+ "-label");
+      }
       hideLayer("route");
     }
     setIsChecked(!isChecked);
