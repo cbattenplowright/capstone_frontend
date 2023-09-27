@@ -41,7 +41,7 @@ const displayDepotPoint = (map, location) => {
         },
         paint: {
             "circle-radius": 10,
-            "circle-color": "#ff7300"
+            "circle-color": "#ffd500"
         }
         });
     }
@@ -88,8 +88,8 @@ const displayWaypoint = (map, orderWaypoints) => {
               }
             },
             paint: {
-              "circle-radius": 10,
-              "circle-color": "#98fb98"
+              "circle-radius": 7.2,
+              "circle-color": "#ff7300"
             }
           });
         }
