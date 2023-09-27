@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
+import { displayDepotPoint, displayWaypoint } from "./MapHelper";
 
 const Map = ({fetchRoutes}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
@@ -14,6 +15,8 @@ const Map = ({fetchRoutes}) => {
   const [lng, setLng] = useState(-0.124638);
   const [lat, setLat] = useState(51.500832);
   const [zoom, setZoom] = useState(11);
+
+  const depotLocation = [-0.124638,51.500832]
 
   const fetchRouteWaypointsList = async () => {
     const response = await fetch("http://localhost:8080/routes/all/waypoints");
@@ -66,15 +69,11 @@ const Map = ({fetchRoutes}) => {
       for (let i = 0; i < routeWaypointsList[routeWaypoint].orderWaypoints.length; i++) {
         if (i % 2 === 0) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
-        } else if (
-          i % 2 === 1 &&
-          i !== routeWaypointsList[routeWaypoint].orderWaypoints.length - 1
-        ) {
+        } else if (i % 2 === 1) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]};`;
-        } else {
-          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]}`;
-        }
+        } 
       }
+      url += `${startLocationLat},${startLocationLong}`
       url += `?overview=full&geometries=geojson`;
       url += `&access_token=${mapboxgl.accessToken}`;
       urlList.push(url);
@@ -116,6 +115,9 @@ const Map = ({fetchRoutes}) => {
           }
         });
       }
+      displayDepotPoint(map, depotLocation);
+      console.log(routeWaypointsList[0].orderWaypoints);
+      displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
     }
   };
 
