@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
-import { displayDepotPoint, displayWaypoint } from "./MapHelper";
+import { displayDepotPoint, displayWaypoint } from "./MapLayers";
+import { MapContext } from "../contexts/MapContext";
 
 const Map = ({fetchRoutes}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
@@ -9,12 +10,15 @@ const Map = ({fetchRoutes}) => {
   const [routeDirections, setRouteDirections] = useState([]);
 
   // Mapbox properties
-  mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const [lng, setLng] = useState(-0.124638);
-  const [lat, setLat] = useState(51.500832);
-  const [zoom, setZoom] = useState(11);
+  const {map, mapContainer, viteKey, lng, setLng, lat, setLat, zoom, setZoom} = useContext(MapContext);
+
+  // const map = useRef(null);
+  // mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
+  // const viteKey = mapboxgl.accessToken;
+  // const mapContainer = useRef(null);
+  // const [lng, setLng] = useState(-0.124638);
+  // const [lat, setLat] = useState(51.500832);
+  // const [zoom, setZoom] = useState(11);
 
   const depotLocation = [-0.124638,51.500832]
 
@@ -75,7 +79,7 @@ const Map = ({fetchRoutes}) => {
       }
       url += `${startLocationLat},${startLocationLong}`
       url += `?overview=full&geometries=geojson`;
-      url += `&access_token=${mapboxgl.accessToken}`;
+      url += `&access_token=${viteKey}`;
       urlList.push(url);
     }
     setRouteUrlList(urlList);

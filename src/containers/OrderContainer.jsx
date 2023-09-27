@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import OrderList from "../components/OrderContainerComponents/OrderList";
+import { MapContext } from "../components/contexts/MapContext";
 
 const OrderContainer = () => {
   const [orderList, setOrderList] = useState([]);
   const [selectedOrderList, setSelectedOrderList] = useState([]);
+  const {map} = useContext(MapContext);
 
   const fetchOrders = async () => {
     const response = await fetch("http://localhost:8080/orders");
@@ -18,6 +20,10 @@ const OrderContainer = () => {
   const removeFromSelectedOrderList = (orderToRemove) => {
     setSelectedOrderList(selectedOrderList.filter((order) => order.id !== orderToRemove.id));
   };
+
+  const showMap = () => {
+    map.current._visibilityHidden = 0;
+  }
 
   useEffect(() => {
     fetchOrders();

@@ -127,4 +127,6 @@ const displayWaypoint = (map, orderWaypoints) => {
   }
 };
 
+
+
 export { displayDepotPoint, displayWaypoint };
