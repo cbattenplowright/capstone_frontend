@@ -1,3 +1,5 @@
+import mapboxgl from "mapbox-gl";
+
 const displayDepotPoint = (map, location) => {
 
     console.log("Creating display point");
@@ -45,8 +47,10 @@ const displayDepotPoint = (map, location) => {
     }
 }
 
-const displayWaypoint = () => {
-
+const displayWaypoint = (map, lat, lng) => {
+    console.log(lat, lng);
+    const marker = new mapboxgl.Marker().setLngLat([lat, lng]).addTo(map);
+    console.log("waypoint added");
 }
 
 export {displayDepotPoint, displayWaypoint}
