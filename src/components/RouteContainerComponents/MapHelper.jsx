@@ -43,6 +43,20 @@ const displayDepotPoint = (map, location) => {
         "circle-color": "#ffd500"
       }
     });
+    map.current.addLayer({
+        id: "start-label",
+        type: "symbol",
+        source: "start", // Reference the circle layer as the source
+        layout: {
+          "text-field": "D", // Display the 'number' property as text
+          "text-size": 12,
+          "text-anchor": "top",
+          "text-offset": [0, -0.55]
+        },
+        paint: {
+          "text-color": "#000" // Text color
+        }
+      });
   }
 };
 
@@ -58,11 +72,11 @@ const displayWaypoint = (map, orderWaypoints) => {
           type: "Feature",
           properties: {
             // Add a number to the properties for the marker
-            number: "1" // Convert the number to a string
+            number: `${stopCount}` // Convert the number to a string
           },
           geometry: {
             type: "Point",
-            coordinates: [-0.14078, 51.501277]
+            coordinates: currentWaypointCoords
           }
         }
       ]
@@ -83,7 +97,7 @@ const displayWaypoint = (map, orderWaypoints) => {
                 properties: {},
                 geometry: {
                   type: "Point",
-                  coordinates: [-0.14078, 51.501277]
+                  coordinates: currentWaypointCoords
                 }
               }
             ]
@@ -99,7 +113,7 @@ const displayWaypoint = (map, orderWaypoints) => {
         type: "symbol",
         source: `Stop${stopCount}`, // Reference the circle layer as the source
         layout: {
-          "text-field": "1", // Display the 'number' property as text
+          "text-field": `${stopCount}`, // Display the 'number' property as text
           "text-size": 12,
           "text-anchor": "top",
           "text-offset": [0, -0.55]
