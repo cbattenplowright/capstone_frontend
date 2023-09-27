@@ -4,21 +4,21 @@ import "./Map.css";
 import { displayDepotPoint, displayWaypoint } from "./MapLayers";
 import { MapContext } from "../contexts/MapContext";
 
-const Map = ({fetchRoutes}) => {
+const Map = ({map, fetchRoutes}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
 
   // Mapbox properties
-  const {map, mapContainer, viteKey, lng, setLng, lat, setLat, zoom, setZoom} = useContext(MapContext);
+  // const {map, mapContainer, viteKey, lng, setLng, lat, setLat, zoom, setZoom} = useContext(MapContext);
 
   // const map = useRef(null);
-  // mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
-  // const viteKey = mapboxgl.accessToken;
-  // const mapContainer = useRef(null);
-  // const [lng, setLng] = useState(-0.124638);
-  // const [lat, setLat] = useState(51.500832);
-  // const [zoom, setZoom] = useState(11);
+  mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
+  const viteKey = mapboxgl.accessToken;
+  const mapContainer = useRef(null);
+  const [lng, setLng] = useState(-0.124638);
+  const [lat, setLat] = useState(51.500832);
+  const [zoom, setZoom] = useState(11);
 
   const depotLocation = [-0.124638,51.500832]
 

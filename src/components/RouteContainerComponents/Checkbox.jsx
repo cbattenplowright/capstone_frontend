@@ -4,13 +4,17 @@ const Checkbox = ({
   route,
   addToSelectedRouteList,
   removeFromSelectedRouteList,
+  showLayer,
+  hideLayer
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
     if (!isChecked) {
       addToSelectedRouteList(route);
+      showLayer("route");
     } else {
       removeFromSelectedRouteList(route);
+      hideLayer("route");
     }
     setIsChecked(!isChecked);
   };

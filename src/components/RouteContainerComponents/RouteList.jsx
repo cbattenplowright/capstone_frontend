@@ -4,6 +4,8 @@ const RouteList = ({
   routes,
   addToSelectedRouteList,
   removeFromSelectedRouteList,
+  showLayer,
+  hideLayer
 }) => {
   const routeComponents = routes.map((route) => {
     return (
@@ -12,6 +14,8 @@ const RouteList = ({
         route={route}
         addToSelectedRouteList={addToSelectedRouteList}
         removeFromSelectedRouteList={removeFromSelectedRouteList}
+        showLayer={showLayer}
+        hideLayer={hideLayer}
       />
     );
   });

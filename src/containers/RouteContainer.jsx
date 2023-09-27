@@ -1,5 +1,5 @@
 import Map from "../components/RouteContainerComponents/Map";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import RouteList from "../components/RouteContainerComponents/RouteList";
 import SelectedRouteList from "../components/RouteContainerComponents/SelectedRouteList";
@@ -8,6 +8,7 @@ import "./RouteContainer.css";
 const RouteContainer = () => {
   const [routeList, setRouteList] = useState([]);
   const [selectedRouteList, setSelectedRouteList] = useState([]);
+  const map = useRef(null);
 
   const fetchRoutes = async () => {
     const response = await fetch("http://localhost:8080/routes");
@@ -21,6 +22,14 @@ const RouteContainer = () => {
   const removeFromSelectedRouteList = (routeToRemove) => {
     setSelectedRouteList(selectedRouteList.filter((route) => route.id !== routeToRemove.id));
   };
+
+  const showLayer = (layerId) => {
+    map.current.setLayoutProperty(layerId, 'visibility', 'visible');
+  }
+
+  const hideLayer = (layerId) => {
+    map.current.setLayoutProperty(layerId, 'visibility', 'none')
+  }
 
   // useEffect(() => {
   //   fetchRoutes();
@@ -42,10 +51,12 @@ const RouteContainer = () => {
             routes={routeList}
             addToSelectedRouteList={addToSelectedRouteList}
             removeFromSelectedRouteList={removeFromSelectedRouteList}
+            showLayer={showLayer}
+            hideLayer={hideLayer}
           />
         </div>
         <div className="map">
-          <Map fetchRoutes={fetchRoutes} />
+          <Map map={map} fetchRoutes={fetchRoutes} />
         </div>
       </div>
       <div className="selected-route-list">
