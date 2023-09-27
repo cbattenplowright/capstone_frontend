@@ -56,7 +56,8 @@ const RouteContainer = () => {
           />
         </div>
         <div className="map">
-          <Map map={map} fetchRoutes={fetchRoutes} />
+          <Map map={map} fetchRoutes={fetchRoutes} showLayer={showLayer}
+            hideLayer={hideLayer}/>
         </div>
       </div>
       <div className="selected-route-list">

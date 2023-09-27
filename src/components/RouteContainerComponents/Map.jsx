@@ -4,7 +4,7 @@ import "./Map.css";
 import { displayDepotPoint, displayWaypoint } from "./MapLayers";
 import { MapContext } from "../contexts/MapContext";
 
-const Map = ({map, fetchRoutes}) => {
+const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
@@ -122,6 +122,11 @@ const Map = ({map, fetchRoutes}) => {
       displayDepotPoint(map, depotLocation);
       console.log(routeWaypointsList[0].orderWaypoints);
       displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
+      for(let i = 0; i<(routeWaypointsList[0].orderWaypoints.length/2); i++){
+        hideLayer("Stop" + JSON.stringify(i+1));
+        hideLayer("Stop" + JSON.stringify(i+1)+ "-label");
+      }
+      hideLayer("route");
     }
   };
 
