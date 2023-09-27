@@ -16,7 +16,7 @@ const Order = ({
       </td>
       <td>{order.id}</td>
       <td>
-        {order.lat} {order.lng}
+        {order.address}
       </td>
       <td>{order.date}</td>
       <td>{JSON.stringify(order.delivered)}</td>
