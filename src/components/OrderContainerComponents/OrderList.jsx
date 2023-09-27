@@ -7,14 +7,12 @@ const OrderList = ({
 }) => {
   const orderComponents = orders.map((order) => {
     return (
-      <tr> 
       <Order
         key={order.id}
         order={order}
         addToSelectedOrderList={addToSelectedOrderList}
         removeFromSelectedOrderList={removeFromSelectedOrderList}
       />
-      </tr>  
     );
   });
 
@@ -25,10 +23,10 @@ const OrderList = ({
         <thead>
           <tr>
             <th></th>
-            <th>Order Name</th>
-            <th>Order Id</th>
+            <th>Order ID</th>
             <th>Delivery Address</th>
-            <th>Current Route</th>
+            <th>Order Date</th>
+            <th>Delivery Status</th>
           </tr>
         </thead>
         <tbody>{orderComponents}</tbody>

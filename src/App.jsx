@@ -1,11 +1,11 @@
 import "./App.css";
-import RouteContainer from "./containers/RouteContainer";
+import OrderContainer from "./containers/OrderContainer";
 
 function App() {
   return (
     <>
       <main>
-        <RouteContainer />
+        <OrderContainer />
       </main>
     </>
   );
