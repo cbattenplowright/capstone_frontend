@@ -1,4 +1,3 @@
-
 const displayDepotPoint = (map, location) => {
 
     console.log("Creating display point");
@@ -46,4 +45,8 @@ const displayDepotPoint = (map, location) => {
     }
 }
 
-export default displayDepotPoint;
+const displayWaypoint = () => {
+
+}
+
+export {displayDepotPoint, displayWaypoint}

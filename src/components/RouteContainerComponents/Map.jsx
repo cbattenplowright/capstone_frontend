@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
-import displayDepotPoint from "./MapHelper";
+import { displayDepotPoint, displayWaypoint } from "./MapHelper";
 
 const Map = ({fetchRoutes}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
