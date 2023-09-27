@@ -5,6 +5,8 @@ const Route = ({
   route,
   addToSelectedRouteList,
   removeFromSelectedRouteList,
+  showLayer,
+  hideLayer
 }) => {
   return (
 <table>
@@ -24,8 +26,11 @@ const Route = ({
       <td>
         <Checkbox
           route={route}
+          routeLength = {route.orders.length}
           addToSelectedRouteList={addToSelectedRouteList}
           removeFromSelectedRouteList={removeFromSelectedRouteList}
+          showLayer={showLayer}
+          hideLayer={hideLayer}
         />
       </td>
       <td>{route.routeName}</td>

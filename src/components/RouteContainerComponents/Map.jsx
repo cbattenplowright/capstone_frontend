@@ -1,17 +1,21 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
-import { displayDepotPoint, displayWaypoint } from "./MapHelper";
+import { displayDepotPoint, displayWaypoint } from "./MapLayers";
+import { MapContext } from "../contexts/MapContext";
 
-const Map = ({fetchRoutes}) => {
+const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
 
   // Mapbox properties
+  // const {map, mapContainer, viteKey, lng, setLng, lat, setLat, zoom, setZoom} = useContext(MapContext);
+
+  // const map = useRef(null);
   mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
+  const viteKey = mapboxgl.accessToken;
   const mapContainer = useRef(null);
-  const map = useRef(null);
   const [lng, setLng] = useState(-0.124638);
   const [lat, setLat] = useState(51.500832);
   const [zoom, setZoom] = useState(11);
@@ -75,7 +79,7 @@ const Map = ({fetchRoutes}) => {
       }
       url += `${startLocationLat},${startLocationLong}`
       url += `?overview=full&geometries=geojson`;
-      url += `&access_token=${mapboxgl.accessToken}`;
+      url += `&access_token=${viteKey}`;
       urlList.push(url);
     }
     setRouteUrlList(urlList);
@@ -106,7 +110,7 @@ const Map = ({fetchRoutes}) => {
           },
           layout: {
             "line-join": "round",
-            "line-cap": "round"
+            "line-cap": "round",
           },
           paint: {
             "line-color": "#3887be",
@@ -118,6 +122,11 @@ const Map = ({fetchRoutes}) => {
       displayDepotPoint(map, depotLocation);
       console.log(routeWaypointsList[0].orderWaypoints);
       displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
+      for(let i = 0; i<(routeWaypointsList[0].orderWaypoints.length/2); i++){
+        hideLayer("Stop" + JSON.stringify(i+1));
+        hideLayer("Stop" + JSON.stringify(i+1)+ "-label");
+      }
+      hideLayer("route");
     }
   };
 

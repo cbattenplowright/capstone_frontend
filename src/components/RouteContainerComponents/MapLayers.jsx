@@ -116,7 +116,7 @@ const displayWaypoint = (map, orderWaypoints) => {
           "text-field": `${stopCount}`, // Display the 'number' property as text
           "text-size": 12,
           "text-anchor": "top",
-          "text-offset": [0, -0.55]
+          "text-offset": [0, -0.55],
         },
         paint: {
           "text-color": "#000" // Text color
@@ -126,5 +126,7 @@ const displayWaypoint = (map, orderWaypoints) => {
     stopCount++;
   }
 };
+
+
 
 export { displayDepotPoint, displayWaypoint };

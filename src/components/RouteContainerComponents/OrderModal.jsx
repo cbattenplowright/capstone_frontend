@@ -11,8 +11,8 @@ const OrderModal = ({ order, closeModal }) => {
         <p>Order ID: {order.id}</p>
         <p>Description: {order.description}</p>
         <p>Date: {order.date}</p>
-        <p>Latitude: {order.lat}</p>
-        <p>Longitude: {order.lng}</p>
+        <p>Address: {order.address}</p>
+        <p>Co-ordinates: {order.lat}, {order.lng}</p>
         <button onClick={closeModal}>Close</button>
       </div>
     </div>
