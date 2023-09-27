@@ -11,10 +11,10 @@ const displayDepotPoint = (map, location) => {
         properties: {},
         geometry: {
           type: "Point",
-          coordinates: location,
-        },
-      },
-    ],
+          coordinates: location
+        }
+      }
+    ]
   };
   if (map.current.getLayer("start")) {
     map.current.getSource("start").setData(start);
@@ -32,16 +32,16 @@ const displayDepotPoint = (map, location) => {
               properties: {},
               geometry: {
                 type: "Point",
-                coordinates: location,
-              },
-            },
-          ],
-        },
+                coordinates: location
+              }
+            }
+          ]
+        }
       },
       paint: {
         "circle-radius": 10,
-        "circle-color": "#ffd500",
-      },
+        "circle-color": "#ffd500"
+      }
     });
   }
 };
@@ -58,21 +58,21 @@ const displayWaypoint = (map, orderWaypoints) => {
           type: "Feature",
           properties: {
             // Add a number to the properties for the marker
-            number: stopCount.toString(), // Convert the number to a string
+            number: "1" // Convert the number to a string
           },
           geometry: {
             type: "Point",
-            coordinates: currentWaypointCoords,
-          },
-        },
-      ],
+            coordinates: [-0.14078, 51.501277]
+          }
+        }
+      ]
     };
     if (map.current.getLayer(`Stop${stopCount}`)) {
       map.current.getSource(`Stop${stopCount}`).setData(waypoint);
     } else {
       map.current.addLayer({
         id: `Stop${stopCount}`,
-        type: "symbol", // Use a symbol layer for text labels
+        type: "circle",
         source: {
           type: "geojson",
           data: {
@@ -80,31 +80,33 @@ const displayWaypoint = (map, orderWaypoints) => {
             features: [
               {
                 type: "Feature",
-                properties: {
-                  // Add a number to the properties for the marker
-                  number: stopCount.toString(), // Convert the number to a string
-                },
+                properties: {},
                 geometry: {
                   type: "Point",
-                  coordinates: currentWaypointCoords,
-                },
-              },
-            ],
-          },
-        },
-        layout: {
-          // Use the number property as the text field
-          "text-field": ["get", "number"],
-          "text-size": 10, // Adjust the text size as needed
-          "text-offset": [0, 1], // Offset the text slightly
-          "text-anchor": "top", // Position the text above the marker
-          "icon-image": "circle"
+                  coordinates: [-0.14078, 51.501277]
+                }
+              }
+            ]
+          }
         },
         paint: {
-          "text-color": "#000000", // Text color
-          "text-halo-color": "#ffffff", // Text halo color
-          "text-halo-width": 1, // Text halo width
+          "circle-radius": 10,
+          "circle-color": "#ff7300"
+        }
+      });
+      map.current.addLayer({
+        id: `Stop${stopCount}-label`,
+        type: "symbol",
+        source: `Stop${stopCount}`, // Reference the circle layer as the source
+        layout: {
+          "text-field": "1", // Display the 'number' property as text
+          "text-size": 12,
+          "text-anchor": "top",
+          "text-offset": [0, -0.55]
         },
+        paint: {
+          "text-color": "#000" // Text color
+        }
       });
     }
     stopCount++;
