@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
+import displayDepotPoint from "./MapHelper";
 
 const Map = ({fetchRoutes}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
@@ -14,6 +15,8 @@ const Map = ({fetchRoutes}) => {
   const [lng, setLng] = useState(-0.124638);
   const [lat, setLat] = useState(51.500832);
   const [zoom, setZoom] = useState(11);
+
+  const depotLocation = [-0.124638,51.500832]
 
   const fetchRouteWaypointsList = async () => {
     const response = await fetch("http://localhost:8080/routes/all/waypoints");
@@ -116,6 +119,7 @@ const Map = ({fetchRoutes}) => {
           }
         });
       }
+      displayDepotPoint(map, depotLocation);
     }
   };
 
