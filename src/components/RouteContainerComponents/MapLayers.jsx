@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 
 const displayDepotPoint = (map, location) => {
-  console.log("Creating display point");
+  console.log("Creating depo waypoint");
 
   const start = {
     type: "FeatureCollection",
@@ -44,19 +44,19 @@ const displayDepotPoint = (map, location) => {
       }
     });
     map.current.addLayer({
-        id: "start-label",
-        type: "symbol",
-        source: "start", // Reference the circle layer as the source
-        layout: {
-          "text-field": "D", // Display the 'number' property as text
-          "text-size": 12,
-          "text-anchor": "top",
-          "text-offset": [0, -0.55]
-        },
-        paint: {
-          "text-color": "#000" // Text color
-        }
-      });
+      id: "start-label",
+      type: "symbol",
+      source: "start", // Reference the circle layer as the source
+      layout: {
+        "text-field": "D", // Display the depot property as text
+        "text-size": 12,
+        "text-anchor": "top",
+        "text-offset": [0, -0.55]
+      },
+      paint: {
+        "text-color": "#000" // Text color
+      }
+    });
   }
 };
 
@@ -116,7 +116,7 @@ const displayWaypoint = (map, orderWaypoints, routeId) => {
           "text-field": `${stopCount}`, // Display the 'number' property as text
           "text-size": 12,
           "text-anchor": "top",
-          "text-offset": [0, -0.55],
+          "text-offset": [0, -0.55]
         },
         paint: {
           "text-color": "#000" // Text color
@@ -126,7 +126,5 @@ const displayWaypoint = (map, orderWaypoints, routeId) => {
     stopCount++;
   }
 };
-
-
 
 export { displayDepotPoint, displayWaypoint };

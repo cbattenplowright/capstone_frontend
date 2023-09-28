@@ -9,6 +9,7 @@ import "./RouteContainer.css";
 const RouteContainer = () => {
   const [routeList, setRouteList] = useState([]);
   const [selectedRouteList, setSelectedRouteList] = useState([]);
+  const [vanList, setVanList] = useState([]);
   const { selectedOrderList } = useContext(OrderContext);
   const map = useRef(null);
 
@@ -17,6 +18,12 @@ const RouteContainer = () => {
     const response = await fetch("http://localhost:8080/routes");
     const data = await response.json();
     setRouteList(data);
+  };
+
+  const fetchVans = async () => {
+    const response = await fetch("http://localhost:8080/vans");
+    const data = await response.json();
+    setVanList(data);
   };
 
   // Generates route and POSTs the route to the backend server
@@ -39,6 +46,18 @@ const RouteContainer = () => {
     };
     // POST request
     const response = await fetch("http://localhost:8080/routes", requestOptions);
+    const data = await response.json();
+
+    const randomVanIdAssignment = Math.floor(Math.random() * (2 - 1) + 1);
+    console.log("Van id assignment is: ");
+    const assignVanResponse = await fetch(
+      `http://localhost:8080/routes/${data.routeId}/assign/${randomVanIdAssignment}`,
+      {
+        method: "PATCH"
+      }
+    );
+    const routeResponse = await assignVanResponse;
+    console.log(routeResponse);
 
     // Reloads the webpage
     window.location.reload(false);
@@ -61,6 +80,10 @@ const RouteContainer = () => {
   const hideLayer = (layerId) => {
     map.current.setLayoutProperty(layerId, "visibility", "none");
   };
+
+  useEffect(() => {
+    fetchVans();
+  }, []);
 
   // Outputs selectedRouteList to console when the state changes
   useEffect(() => {
