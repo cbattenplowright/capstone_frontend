@@ -34,7 +34,7 @@ const OrderContainer = () => {
   return (
     <div className="order-container">
       <div className="order-header">
-        <Link to="/">
+        <Link to="/routes">
           <p>ROUTES</p>
         </Link>
       </div>

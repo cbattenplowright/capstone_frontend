@@ -4,7 +4,7 @@ import "./Map.css";
 import { displayDepotPoint, displayWaypoint } from "./MapLayers";
 import { MapContext } from "../contexts/MapContext";
 
-const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
+const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
@@ -146,6 +146,10 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, []);
+
+  useEffect(() => {
+    fetchRouteWaypointsList();
+  },[routes])
 
   // wait to output routeWaypointsList
   useEffect(() => {

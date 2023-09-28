@@ -12,8 +12,8 @@ function App() {
       <BrowserRouter>
         <main>
           <Routes>
-            <Route path="/" element={<RouteContainer />} />
-            <Route path="/orders" element={<OrderContainer />} />
+            <Route path="/routes" element={<RouteContainer />} />
+            <Route path="/" element={<OrderContainer />} />
           </Routes>
         </main>
       </BrowserRouter>

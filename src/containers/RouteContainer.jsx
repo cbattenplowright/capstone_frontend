@@ -19,7 +19,7 @@ const RouteContainer = () => {
   };
 
   const generateRoute = async () => {
-    let orderIdList = [];
+    let orderIdList = []; //[1,3,5,9]
     for (let i = 0; i<selectedOrderList.length; i++){
       orderIdList.push(selectedOrderList[i].id);
     }
@@ -28,13 +28,14 @@ const RouteContainer = () => {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-        routeName: "Route 002",
+        routeName: "Route 001",
         orderIds: orderIdList,
         distance: 60.5,
         startLocationLong: 51.500832,
         startLocationLat: -0.124638})
     };
     const response = await fetch("http://localhost:8080/routes",requestOptions)
+    window.location.reload(false);
   }
   const addToSelectedRouteList = (routeToAdd) => {
     const updatedSelectedRoutes = [...selectedRouteList, routeToAdd];
@@ -62,7 +63,7 @@ const RouteContainer = () => {
   return (
     <div className="route-container">
       <div className="route-header">
-        <Link to="/orders">
+        <Link to="/">
           <p>EDIT ORDERS</p>
         </Link>
         <button onClick={generateRoute}>GENERATE ROUTES</button>
@@ -79,7 +80,7 @@ const RouteContainer = () => {
         </div>
         <div className="map">
           <Map map={map} fetchRoutes={fetchRoutes} showLayer={showLayer}
-            hideLayer={hideLayer}/>
+            hideLayer={hideLayer} routes={routeList}/>
         </div>
       </div>
       <div className="selected-route-list">
