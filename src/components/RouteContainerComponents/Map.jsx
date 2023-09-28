@@ -61,7 +61,7 @@ const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
     let urlList = [];
 
     // for (let routeWaypoint in routeWaypointsList) {
-    console.log(routeWaypointsList[routeWaypoint]);
+    // console.log(routeWaypointsList[routeWaypoint]);
     const startLocationLat = routeWaypointsList[routeWaypoint].startLat;
     const startLocationLong = routeWaypointsList[routeWaypoint].startLong;
     let url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocationLat},${startLocationLong};`;
@@ -141,6 +141,11 @@ const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
     }
   };
 
+  const generateRoute = () => {
+    createSelectedWaypointsList();
+    createDirectionsURL();
+  };
+
   // when page loads
   useEffect(() => {
     fetchRouteWaypointsList();
@@ -161,7 +166,7 @@ const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
   // wait to output routeWaypointsList
   useEffect(() => {
     console.log(routeWaypointsList);
-    createDirectionsURL();
+    fetchRouteWaypointsList();
   }, [routeWaypointsList]);
 
   useEffect(() => {
@@ -180,7 +185,7 @@ const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
 
   return (
     <>
-      <button className="generate-button" onClick={createSelectedWaypointsList}>
+      <button className="generate-button" onClick={generateRoute}>
         GENERATE ROUTE
       </button>
       <div ref={mapContainer} className="map-container" />
