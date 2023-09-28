@@ -13,17 +13,17 @@ const Checkbox = ({
     if (!isChecked) {
       addToSelectedRouteList(route);
       for(let i = 0; i<routeLength; i++){
-        showLayer("Stop" + JSON.stringify(i+1));
-        showLayer("Stop" + JSON.stringify(i+1)+ "-label");
+        showLayer(`route-${route.id}-stop-${i+1}`);
+        showLayer(`route-${route.id}-stop-${i+1}`+ "-label");
       }
-      showLayer("route");
+      showLayer(`route-${route.id}`);
     } else {
       removeFromSelectedRouteList(route);
       for(let i = 0; i<routeLength; i++){
-        hideLayer("Stop" + JSON.stringify(i+1));
-        hideLayer("Stop" + JSON.stringify(i+1)+ "-label");
+        hideLayer(`route-${route.id}-stop-${i+1}`);
+        hideLayer(`route-${route.id}-stop-${i+1}`+ "-label");
       }
-      hideLayer("route");
+      hideLayer(`route-${route.id}`);
     }
     setIsChecked(!isChecked);
   };

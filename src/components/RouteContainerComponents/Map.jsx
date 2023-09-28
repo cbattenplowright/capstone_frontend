@@ -37,8 +37,9 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
   };
 
   const fetchRouteDirections = async () => {
-    //loop through routeUrlList
-    const response = await fetch(routeUrlList[0], {
+    let routeDirections = [];
+    for(let i = 0; i<routeUrlList.length; i++){
+    const response = await fetch(routeUrlList[i], {
       method: "GET"
     });
     const json = await response.json();
@@ -46,11 +47,13 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
     console.log(json);
     const data = await json.routes[0];
     const routeDistance = json.routes[0].distance;
-    const { routeId } = routeWaypointsList[0];
+    const { routeId } = routeWaypointsList[i];
 
     updateRouteDistance(routeId, routeDistance);
+    routeDirections.push(data)
+    }
 
-    setRouteDirections(data);
+    setRouteDirections(routeDirections);
   };
 
   const createDirectionsURL = () => {
@@ -87,8 +90,9 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
 
   const createRouteLayerOnMap = () => {
     //needs a loop and change name through route id
-    if (routeDirections && routeDirections.geometry && routeDirections.geometry.coordinates) {
-      const route = routeDirections.geometry.coordinates;
+    if (routeDirections[0] && routeDirections[0].geometry && routeDirections[0].geometry.coordinates) {
+      for(let i = 0; i<routeDirections.length; i++){
+      const route = routeDirections[i].geometry.coordinates;
       const geojson = {
         type: "Feature",
         properties: {},
@@ -99,11 +103,11 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
       };
 
       // creation of route layer, can amend id for route name and change colours depending
-      if (map.current.getSource("route")) {
-        map.current.getSource("route").setData(geojson);
+      if (map.current.getSource("route-" + JSON.stringify(routeWaypointsList[i].routeId))) {
+        map.current.getSource("route-"+ JSON.stringify(routeWaypointsList[i].routeId)).setData(geojson);
       } else {
         map.current.addLayer({
-          id: "route",
+          id: "route-"+ JSON.stringify(routeWaypointsList[i].routeId),
           type: "line",
           source: {
             type: "geojson",
@@ -120,15 +124,16 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
           }
         });
       }
-      displayDepotPoint(map, depotLocation);
-      console.log(routeWaypointsList[0].orderWaypoints);
-      displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
-      for (let i = 0; i < routeWaypointsList[0].orderWaypoints.length / 2; i++) {
-        hideLayer("Stop" + JSON.stringify(i + 1));
-        hideLayer("Stop" + JSON.stringify(i + 1) + "-label");
+      console.log(routeWaypointsList[i].orderWaypoints);
+      displayWaypoint(map, routeWaypointsList[i].orderWaypoints, routeWaypointsList[i].routeId);
+      for (let j = 0; j < routeWaypointsList[i].orderWaypoints.length / 2; j++) {
+        hideLayer("route-"+ JSON.stringify(routeWaypointsList[i].routeId) + "-stop-" + JSON.stringify(j + 1));
+        hideLayer("route-"+ JSON.stringify(routeWaypointsList[i].routeId)+ "-stop-" + JSON.stringify(j+1) + "-label");
       }
-      hideLayer("route");
+      hideLayer("route-"+ JSON.stringify(routeWaypointsList[i].routeId));
     }
+    displayDepotPoint(map, depotLocation);
+  }
   };
 
   // when page loads

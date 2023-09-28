@@ -60,7 +60,7 @@ const displayDepotPoint = (map, location) => {
   }
 };
 
-const displayWaypoint = (map, orderWaypoints) => {
+const displayWaypoint = (map, orderWaypoints, routeId) => {
   let stopCount = 1;
   for (let i = 0; i < orderWaypoints.length; i += 2) {
     let currentWaypointCoords = [orderWaypoints[i], orderWaypoints[i + 1]];
@@ -81,11 +81,11 @@ const displayWaypoint = (map, orderWaypoints) => {
         }
       ]
     };
-    if (map.current.getLayer(`Stop${stopCount}`)) {
-      map.current.getSource(`Stop${stopCount}`).setData(waypoint);
+    if (map.current.getLayer(`route-${routeId}-stop-${stopCount}`)) {
+      map.current.getSource(`route-${routeId}-stop-${stopCount}`).setData(waypoint);
     } else {
       map.current.addLayer({
-        id: `Stop${stopCount}`,
+        id: `route-${routeId}-stop-${stopCount}`,
         type: "circle",
         source: {
           type: "geojson",
@@ -109,9 +109,9 @@ const displayWaypoint = (map, orderWaypoints) => {
         }
       });
       map.current.addLayer({
-        id: `Stop${stopCount}-label`,
+        id: `route-${routeId}-stop-${stopCount}-label`,
         type: "symbol",
-        source: `Stop${stopCount}`, // Reference the circle layer as the source
+        source: `route-${routeId}-stop-${stopCount}`, // Reference the circle layer as the source
         layout: {
           "text-field": `${stopCount}`, // Display the 'number' property as text
           "text-size": 12,
