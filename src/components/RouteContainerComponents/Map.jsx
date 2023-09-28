@@ -2,15 +2,11 @@ import { useEffect, useState, useRef, useContext } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
 import { displayDepotPoint, displayWaypoint } from "./MapLayers";
-import { MapContext } from "../contexts/MapContext";
 
 const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
-
-  // Mapbox properties
-  // const {map, mapContainer, viteKey, lng, setLng, lat, setLat, zoom, setZoom} = useContext(MapContext);
 
   // const map = useRef(null);
   mapboxgl.accessToken = import.meta.env.VITE_APIKEY;
@@ -22,12 +18,14 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
 
   const depotLocation = [-0.124638, 51.500832];
 
+  // GET request to get order waypoints to set routeWaypointsList
   const fetchRouteWaypointsList = async () => {
     const response = await fetch("http://localhost:8080/routes/all/waypoints");
     const data = await response.json();
     setRouteWaypointsList(data);
   };
 
+  // PATCH request to update the distance of the route
   const updateRouteDistance = async (routeId, distance) => {
     const response = await fetch(`http://localhost:8080/routes/${routeId}?distance=${distance}`, {
       method: "PATCH"
@@ -36,26 +34,28 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
     console.log(json);
   };
 
+  // Sends requests to Mapbox Directions API with the given urls from routeUrlList
   const fetchRouteDirections = async () => {
     let routeDirections = [];
-    for(let i = 0; i<routeUrlList.length; i++){
-    const response = await fetch(routeUrlList[i], {
-      method: "GET"
-    });
-    const json = await response.json();
-    console.log("This is the json returned from the directions api request");
-    console.log(json);
-    const data = await json.routes[0];
-    const routeDistance = json.routes[0].distance;
-    const { routeId } = routeWaypointsList[i];
+    for (let i = 0; i < routeUrlList.length; i++) {
+      const response = await fetch(routeUrlList[i], {
+        method: "GET"
+      });
+      const json = await response.json();
+      console.log("This is the json returned from the directions api request");
+      console.log(json);
+      const data = await json.routes[0];
+      const routeDistance = json.routes[0].distance;
+      const { routeId } = routeWaypointsList[i];
 
-    updateRouteDistance(routeId, routeDistance);
-    routeDirections.push(data)
+      updateRouteDistance(routeId, routeDistance);
+      routeDirections.push(data);
     }
 
     setRouteDirections(routeDirections);
   };
 
+  // Generates the Urls for each route to send to the API
   const createDirectionsURL = () => {
     // https://api.mapbox.com/directions/v5/driving/{coordinates}
     // state of routeURLs
@@ -88,52 +88,69 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
     setRouteUrlList(urlList);
   };
 
+  // Creates the route layer for each route which is to be displayed on the map and sets visibility to none
   const createRouteLayerOnMap = () => {
-    //needs a loop and change name through route id
-    if (routeDirections[0] && routeDirections[0].geometry && routeDirections[0].geometry.coordinates) {
-      for(let i = 0; i<routeDirections.length; i++){
-      const route = routeDirections[i].geometry.coordinates;
-      const geojson = {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "LineString",
-          coordinates: route
-        }
-      };
-
-      // creation of route layer, can amend id for route name and change colours depending
-      if (map.current.getSource("route-" + JSON.stringify(routeWaypointsList[i].routeId))) {
-        map.current.getSource("route-"+ JSON.stringify(routeWaypointsList[i].routeId)).setData(geojson);
-      } else {
-        map.current.addLayer({
-          id: "route-"+ JSON.stringify(routeWaypointsList[i].routeId),
-          type: "line",
-          source: {
-            type: "geojson",
-            data: geojson
-          },
-          layout: {
-            "line-join": "round",
-            "line-cap": "round"
-          },
-          paint: {
-            "line-color": "#3887be",
-            "line-width": 5,
-            "line-opacity": 0.75
+    if (
+      routeDirections[0] &&
+      routeDirections[0].geometry &&
+      routeDirections[0].geometry.coordinates
+    ) {
+      for (let i = 0; i < routeDirections.length; i++) {
+        const route = routeDirections[i].geometry.coordinates;
+        const geojson = {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates: route
           }
-        });
+        };
+
+        // creation of route layer, can amend id for route name and change colours depending
+        if (map.current.getSource("route-" + JSON.stringify(routeWaypointsList[i].routeId))) {
+          map.current
+            .getSource("route-" + JSON.stringify(routeWaypointsList[i].routeId))
+            .setData(geojson);
+        } else {
+          map.current.addLayer({
+            id: "route-" + JSON.stringify(routeWaypointsList[i].routeId),
+            type: "line",
+            source: {
+              type: "geojson",
+              data: geojson
+            },
+            layout: {
+              "line-join": "round",
+              "line-cap": "round"
+            },
+            paint: {
+              "line-color": "#3887be",
+              "line-width": 5,
+              "line-opacity": 0.75
+            }
+          });
+        }
+        console.log(routeWaypointsList[i].orderWaypoints);
+        displayWaypoint(map, routeWaypointsList[i].orderWaypoints, routeWaypointsList[i].routeId);
+        for (let j = 0; j < routeWaypointsList[i].orderWaypoints.length / 2; j++) {
+          hideLayer(
+            "route-" +
+              JSON.stringify(routeWaypointsList[i].routeId) +
+              "-stop-" +
+              JSON.stringify(j + 1)
+          );
+          hideLayer(
+            "route-" +
+              JSON.stringify(routeWaypointsList[i].routeId) +
+              "-stop-" +
+              JSON.stringify(j + 1) +
+              "-label"
+          );
+        }
+        hideLayer("route-" + JSON.stringify(routeWaypointsList[i].routeId));
       }
-      console.log(routeWaypointsList[i].orderWaypoints);
-      displayWaypoint(map, routeWaypointsList[i].orderWaypoints, routeWaypointsList[i].routeId);
-      for (let j = 0; j < routeWaypointsList[i].orderWaypoints.length / 2; j++) {
-        hideLayer("route-"+ JSON.stringify(routeWaypointsList[i].routeId) + "-stop-" + JSON.stringify(j + 1));
-        hideLayer("route-"+ JSON.stringify(routeWaypointsList[i].routeId)+ "-stop-" + JSON.stringify(j+1) + "-label");
-      }
-      hideLayer("route-"+ JSON.stringify(routeWaypointsList[i].routeId));
+      displayDepotPoint(map, depotLocation);
     }
-    displayDepotPoint(map, depotLocation);
-  }
   };
 
   // when page loads
@@ -153,17 +170,19 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
     });
   }, []);
 
-  // wait to output routeWaypointsList
+  // triggered when routeWaypointsList is updated and calls the createDirectionsUrl function
   useEffect(() => {
     console.log(routeWaypointsList);
     createDirectionsURL();
   }, [routeWaypointsList]);
 
+  // triggered when routeUrlList is updated and calls the fetchRouteDirections function
   useEffect(() => {
     console.log(routeUrlList);
     fetchRouteDirections();
   }, [routeUrlList]);
 
+  // triggered when routeDirections is updated and calls the createRouteLayerOnMap function
   useEffect(() => {
     console.log("This is the route directions list/object");
     console.log(routeDirections);

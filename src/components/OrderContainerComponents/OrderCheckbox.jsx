@@ -1,12 +1,10 @@
 import { useState } from "react";
 
-const OrderCheckbox = ({
-  order,
-  addToSelectedOrderList,
-  removeFromSelectedOrderList,
-}) => {
+const OrderCheckbox = ({ order, addToSelectedOrderList, removeFromSelectedOrderList }) => {
   const [isChecked, setIsChecked] = useState(false);
+
   const handleOnChange = () => {
+    // Conditional that if order is checked adds/removes order from selectedOrderList
     if (!isChecked) {
       addToSelectedOrderList(order);
     } else {
@@ -14,6 +12,7 @@ const OrderCheckbox = ({
     }
     setIsChecked(!isChecked);
   };
+
   return (
     <div id="checkbox">
       <input

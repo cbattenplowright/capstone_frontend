@@ -8,17 +8,16 @@ const Route = ({
   showLayer,
   hideLayer
 }) => {
-
-  const displayRouteDistance = route.distance !== 0 ?
-     <>{(route.distance/1609).toFixed(2)}</>
- : <>loading...</>
+  // Fixes infinite loop problem when generating route
+  const displayRouteDistance =
+    route.distance !== 0 ? <>{(route.distance / 1609).toFixed(2)}</> : <>TBC</>;
 
   return (
     <tr>
       <td>
         <Checkbox
           route={route}
-          routeLength = {route.orders.length}
+          routeLength={route.orders.length}
           addToSelectedRouteList={addToSelectedRouteList}
           removeFromSelectedRouteList={removeFromSelectedRouteList}
           showLayer={showLayer}
@@ -27,11 +26,10 @@ const Route = ({
       </td>
       <td>{route.routeName}</td>
       <td>Bob</td>
-      {/* <td>{(route.distance/1609).toFixed(2)}</td> */}
       <td>{displayRouteDistance}</td>
       <td>3 hours</td>
       <td>{route.orders.length}</td>
     </tr>
-  )
-}
+  );
+};
 export default Route;
