@@ -1,13 +1,15 @@
 import Map from "../components/RouteContainerComponents/Map";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import RouteList from "../components/RouteContainerComponents/RouteList";
 import SelectedRouteList from "../components/RouteContainerComponents/SelectedRouteList";
 import "./RouteContainer.css";
+import { OrderContext } from "../components/contexts/OrderContext";
 
 const RouteContainer = () => {
   const [routeList, setRouteList] = useState([]);
   const [selectedRouteList, setSelectedRouteList] = useState([]);
+  const {selectedOrderList, setSelectedOrderList} = useContext(OrderContext);
   const map = useRef(null);
 
   const fetchRoutes = async () => {
@@ -15,6 +17,25 @@ const RouteContainer = () => {
     const data = await response.json();
     setRouteList(data);
   };
+
+  const generateRoute = async () => {
+    let orderIdList = [];
+    for (let i = 0; i<selectedOrderList.length; i++){
+      orderIdList.push(selectedOrderList[i].id);
+    }
+    console.log(orderIdList);
+    const requestOptions = {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        routeName: "Route 002",
+        orderIds: orderIdList,
+        distance: 60.5,
+        startLocationLong: 51.500832,
+        startLocationLat: -0.124638})
+    };
+    const response = await fetch("http://localhost:8080/routes",requestOptions)
+  }
   const addToSelectedRouteList = (routeToAdd) => {
     const updatedSelectedRoutes = [...selectedRouteList, routeToAdd];
     setSelectedRouteList(updatedSelectedRoutes);
@@ -44,6 +65,7 @@ const RouteContainer = () => {
         <Link to="/orders">
           <p>EDIT ORDERS</p>
         </Link>
+        <button onClick={generateRoute}>GENERATE ROUTES</button>
       </div>
       <div className="route-map">
         <div className="route-list">

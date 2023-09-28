@@ -34,7 +34,7 @@ const Route = ({
         />
       </td>
       <td>{route.routeName}</td>
-      <td>{route.van.driverName}</td>
+      <td>Bob</td>
       <td>{(route.distance/1609).toFixed(2)}</td>
       <td>3 hours</td>
       <td>{route.orders.length}</td>

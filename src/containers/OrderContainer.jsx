@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import OrderList from "../components/OrderContainerComponents/OrderList";
 import { MapContext } from "../components/contexts/MapContext";
+import { OrderContext } from "../components/contexts/OrderContext";
 
 const OrderContainer = () => {
   const [orderList, setOrderList] = useState([]);
-  const [selectedOrderList, setSelectedOrderList] = useState([]);
+  // const [selectedOrderList, setSelectedOrderList] = useState([]);
+  const {selectedOrderList, setSelectedOrderList} = useContext(OrderContext);
   const {map} = useContext(MapContext);
 
   const fetchOrders = async () => {

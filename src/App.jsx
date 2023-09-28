@@ -3,9 +3,11 @@ import "./App.css";
 import RouteContainer from "./containers/RouteContainer";
 import OrderContainer from "./containers/OrderContainer";
 import MapContextProvider from "./components/contexts/MapContext";
+import OrderContextProvider from "./components/contexts/OrderContext";
 
 function App() {
   return (
+    <OrderContextProvider>
     <MapContextProvider>
       <BrowserRouter>
         <main>
@@ -16,6 +18,8 @@ function App() {
         </main>
       </BrowserRouter>
     </MapContextProvider>
+    </OrderContextProvider>
+
   );
 }
 
