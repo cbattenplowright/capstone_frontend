@@ -22,7 +22,7 @@ const RouteList = ({
 
   return <div id="route-list">
     <table>
-  <caption>List of Routes</caption>
+  <caption id="list-caption">List of Routes</caption>
   <thead>
     <tr>
       <th></th>
