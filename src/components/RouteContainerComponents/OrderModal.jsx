@@ -11,6 +11,7 @@ const OrderModal = ({ order, closeModal }) => {
     })
     const json = await response.json();
     console.log(json);
+    alert("Delivered!")
   }
 
   return (
