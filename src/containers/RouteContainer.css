@@ -37,7 +37,7 @@
 .generate-button {
     font-weight: 500;
     color: #646cff;
-    background-color: #403e3e; /* Button background color */
+    background-color: white; /* Button background color */
     padding: 5px 20px; /* Adjusted padding for top/bottom and left/right */
     border: 2px solid #646cff; /* Border with specified color */
     border-radius: 5px; /* Rounded corners */
@@ -45,7 +45,7 @@
     display: inline-block; /* Display as inline-block to adjust width */
     cursor: pointer; /* Change cursor to pointer on hover */
     text-align: center; /* Center-align text within the button */
-    height: 75px;
+    height: 66px;
     margin-left: 10px;
 }
 

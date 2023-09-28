@@ -1,7 +1,7 @@
 .route-button {
     font-weight: 500;
     color: #646cff;
-    background-color: #403e3e; /* Button background color */
+    background-color: white; /* Button background color */
     padding: 0px 20px 5px 20px; /* Adjusted padding for top/bottom and left/right */
     border: 2px solid #646cff; /* Border with specified color */
     border-radius: 5px; /* Rounded corners */
