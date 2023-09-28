@@ -11,13 +11,35 @@
   font-size: larger;
 }
 
-table,
-td {
-  border: 1px solid #333;
+/* Style the table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;/* Set black background */
+  border: 1px solid #ffffff; /* Add border around the table */
 }
 
-thead,
+/* Style table cells */
+td,
+th {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ffffff; /* Add border to cells */
+  color: #00FFFF; /* Set text color to aqua */
+}
+
+/* Style table header and footer */
+thead {
+  background-color: #388;
+}
+
 tfoot {
   background-color: #333;
   color: #fff;
+  font-weight: bold;
+}
+
+/* Add hover effect on table rows */
+tr:hover {
+  background-color: #111; /* Darker black for hover effect */
 }

@@ -1,4 +1,5 @@
 import Order from "./Order";
+import './OrderList.css'
 
 const OrderList = ({
   orders,
@@ -19,7 +20,7 @@ const OrderList = ({
   return (
     <div id="order-list">
       <table>
-        <caption>ORDERS</caption>
+      <caption id="orders-caption">ORDERS</caption>
         <thead>
           <tr>
             <th></th>
