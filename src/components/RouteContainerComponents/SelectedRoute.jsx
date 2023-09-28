@@ -8,6 +8,7 @@ const SelectedRoute = ({ selectedRoute }) => {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const openModal = (order) => {
+    console.log(orders);
     setSelectedOrder(order);
     setIsModalOpen(true);
   };
@@ -17,14 +18,17 @@ const SelectedRoute = ({ selectedRoute }) => {
     setIsModalOpen(false);
   };
 
+ let stopCount = 0;
+
   const mappedOrders = orders.map((order) => {
+    stopCount++;
     return (
       <button
         key={order.id}
         className="stop-button"
         onClick={() => openModal(order)} 
       >
-        <li>Stop: {order.id}</li>
+        <li>Stop: {stopCount}</li>
       </button>
     );
   });

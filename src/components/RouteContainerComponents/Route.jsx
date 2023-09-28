@@ -8,20 +8,12 @@ const Route = ({
   showLayer,
   hideLayer
 }) => {
+
+  const displayRouteDistance = route.distance !== 0 ?
+     <>{(route.distance/1609).toFixed(2)}</>
+ : <>loading...</>
+
   return (
-<table>
-  <caption>List of Routes</caption>
-  <thead>
-    <tr>
-      <th></th>
-      <th>Route Name</th>
-      <th>Driver Name</th>
-      <th>Distance (Miles)</th>
-      <th>Time</th>
-      <th>Deliveries</th>
-    </tr>
-  </thead>
-  <tbody>
     <tr>
       <td>
         <Checkbox
@@ -34,13 +26,12 @@ const Route = ({
         />
       </td>
       <td>{route.routeName}</td>
-      <td>{route.van.driverName}</td>
-      <td>{(route.distance/1609).toFixed(2)}</td>
+      <td>Bob</td>
+      {/* <td>{(route.distance/1609).toFixed(2)}</td> */}
+      <td>{displayRouteDistance}</td>
       <td>3 hours</td>
       <td>{route.orders.length}</td>
     </tr>
-  </tbody>
-</table>
   )
 }
 export default Route;

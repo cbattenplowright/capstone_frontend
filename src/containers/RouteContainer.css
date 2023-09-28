@@ -1,4 +1,5 @@
 /* RouteContainer.css */
+
 .route-container {
     display: flex;
     flex-direction: column;
@@ -21,7 +22,36 @@
     grid-column: auto;
 }
 
-.route-map{
+.route-map {
     display: flex;
     flex-direction: row;
+}
+
+/* Button container to hold both buttons */
+.button-container {
+    display: flex;
+    gap: 10px; /* Adjust the gap between buttons */
+}
+
+.edit-order-button,
+.generate-button {
+    font-weight: 500;
+    color: #646cff;
+    background-color: white; /* Button background color */
+    padding: 5px 20px; /* Adjusted padding for top/bottom and left/right */
+    border: 2px solid #646cff; /* Border with specified color */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines (if the button is a link) */
+    display: inline-block; /* Display as inline-block to adjust width */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    text-align: center; /* Center-align text within the button */
+    height: 66px;
+    margin-left: 10px;
+}
+
+/* Hover effect */
+.edit-order-button:hover,
+.generate-button:hover {
+    background-color: #646cff; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
 }
