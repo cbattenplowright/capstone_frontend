@@ -1,10 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { OrderContext } from "../contexts/OrderContext";
 
 const OrderCheckbox = ({ order, addToSelectedOrderList, removeFromSelectedOrderList }) => {
   const { selectedOrderList } = useContext(OrderContext);
 
-  const [isChecked, setIsChecked] = useState(selectedOrderList.includes(order));
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleOnChange = () => {
     if (!isChecked) {

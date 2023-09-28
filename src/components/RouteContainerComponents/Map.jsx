@@ -180,7 +180,7 @@ const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
 
   return (
     <>
-      <button className="generate-button" onClick={createSelectedWaypointsList()}>
+      <button className="generate-button" onClick={createSelectedWaypointsList}>
         GENERATE ROUTE
       </button>
       <div ref={mapContainer} className="map-container" />
