@@ -43,3 +43,9 @@ tfoot {
 tr:hover {
   background-color: #111; /* Darker black for hover effect */
 }
+
+#list-caption {
+  font-size: 24px; /* Adjust the font size as needed */
+  font-weight: bold;
+  color: white;
+}

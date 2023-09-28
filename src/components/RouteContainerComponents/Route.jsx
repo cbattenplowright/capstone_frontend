@@ -15,7 +15,7 @@ const Route = ({
 
   return (
 <table>
-  <caption>List of Routes</caption>
+  <caption id="list-caption">List of Routes</caption>
   <thead>
     <tr>
       <th></th>

@@ -3,8 +3,8 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import RouteList from "../components/RouteContainerComponents/RouteList";
 import SelectedRouteList from "../components/RouteContainerComponents/SelectedRouteList";
-import "./RouteContainer.css";
 import { OrderContext } from "../components/contexts/OrderContext";
+import "./RouteContainer.css";
 
 const RouteContainer = () => {
   const [routeList, setRouteList] = useState([]);
@@ -64,9 +64,11 @@ const RouteContainer = () => {
     <div className="route-container">
       <div className="route-header">
         <Link to="/">
+        <button class="edit-order-button">
           <p>EDIT ORDERS</p>
+          </button>
         </Link>
-        <button onClick={generateRoute}>GENERATE ROUTES</button>
+        <button className="generate-button"onClick={generateRoute}>GENERATE ROUTES</button>
       </div>
       <div className="route-map">
         <div className="route-list">
