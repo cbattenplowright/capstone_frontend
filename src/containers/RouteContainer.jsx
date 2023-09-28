@@ -9,7 +9,7 @@ import { OrderContext } from "../components/contexts/OrderContext";
 const RouteContainer = () => {
   const [routeList, setRouteList] = useState([]);
   const [selectedRouteList, setSelectedRouteList] = useState([]);
-  const {selectedOrderList, setSelectedOrderList} = useContext(OrderContext);
+  const { selectedOrderList, setSelectedOrderList } = useContext(OrderContext);
   const map = useRef(null);
 
   const fetchRoutes = async () => {
@@ -20,23 +20,25 @@ const RouteContainer = () => {
 
   const generateRoute = async () => {
     let orderIdList = []; //[1,3,5,9]
-    for (let i = 0; i<selectedOrderList.length; i++){
+    for (let i = 0; i < selectedOrderList.length; i++) {
       orderIdList.push(selectedOrderList[i].id);
     }
     console.log(orderIdList);
     const requestOptions = {
       method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         routeName: "Route 001",
         orderIds: orderIdList,
         distance: 0,
         startLocationLong: 51.500832,
-        startLocationLat: -0.124638})
+        startLocationLat: -0.124638
+      })
     };
-    const response = await fetch("http://localhost:8080/routes",requestOptions)
+    const response = await fetch("http://localhost:8080/routes", requestOptions);
     window.location.reload(false);
-  }
+  };
+
   const addToSelectedRouteList = (routeToAdd) => {
     const updatedSelectedRoutes = [...selectedRouteList, routeToAdd];
     setSelectedRouteList(updatedSelectedRoutes);
@@ -46,16 +48,17 @@ const RouteContainer = () => {
   };
 
   const showLayer = (layerId) => {
-    map.current.setLayoutProperty(layerId, 'visibility', 'visible');
-  }
+    map.current.setLayoutProperty(layerId, "visibility", "visible");
+  };
 
   const hideLayer = (layerId) => {
-    map.current.setLayoutProperty(layerId, 'visibility', 'none')
-  }
+    map.current.setLayoutProperty(layerId, "visibility", "none");
+  };
 
   // useEffect(() => {
-  //   fetchRoutes();
+  //   setTimeout(fetchRoutes(), 1000);
   // }, []);
+
   useEffect(() => {
     console.log(selectedRouteList);
   }, [selectedRouteList]);
@@ -79,8 +82,13 @@ const RouteContainer = () => {
           />
         </div>
         <div className="map">
-          <Map map={map} fetchRoutes={fetchRoutes} showLayer={showLayer}
-            hideLayer={hideLayer} routes={routeList}/>
+          <Map
+            map={map}
+            fetchRoutes={fetchRoutes}
+            showLayer={showLayer}
+            hideLayer={hideLayer}
+            routes={routeList}
+          />
         </div>
       </div>
       <div className="selected-route-list">

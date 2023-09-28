@@ -4,7 +4,7 @@ import "./Map.css";
 import { displayDepotPoint, displayWaypoint } from "./MapLayers";
 import { MapContext } from "../contexts/MapContext";
 
-const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
+const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
@@ -20,7 +20,7 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
   const [lat, setLat] = useState(51.500832);
   const [zoom, setZoom] = useState(11);
 
-  const depotLocation = [-0.124638,51.500832]
+  const depotLocation = [-0.124638, 51.500832];
 
   const fetchRouteWaypointsList = async () => {
     const response = await fetch("http://localhost:8080/routes/all/waypoints");
@@ -29,15 +29,15 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
   };
 
   const updateRouteDistance = async (routeId, distance) => {
-    const response = await fetch(`http://localhost:8080/routes/${routeId}?distance=${distance}`,
-    {
+    const response = await fetch(`http://localhost:8080/routes/${routeId}?distance=${distance}`, {
       method: "PATCH"
     });
     const json = await response.json();
     console.log(json);
-  }
+  };
 
-  const fetchRouteDirections = async () => { //loop through routeUrlList
+  const fetchRouteDirections = async () => {
+    //loop through routeUrlList
     const response = await fetch(routeUrlList[0], {
       method: "GET"
     });
@@ -46,13 +46,11 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
     console.log(json);
     const data = await json.routes[0];
     const routeDistance = json.routes[0].distance;
-    const {routeId} = routeWaypointsList[0];
+    const { routeId } = routeWaypointsList[0];
 
     updateRouteDistance(routeId, routeDistance);
 
     setRouteDirections(data);
-
-    fetchRoutes();
   };
 
   const createDirectionsURL = () => {
@@ -77,9 +75,9 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
         } else if (i % 2 === 1) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]};`;
-        } 
+        }
       }
-      url += `${startLocationLat},${startLocationLong}`
+      url += `${startLocationLat},${startLocationLong}`;
       url += `?overview=full&geometries=geojson`;
       url += `&access_token=${viteKey}`;
       urlList.push(url);
@@ -87,7 +85,8 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
     setRouteUrlList(urlList);
   };
 
-  const createRouteLayerOnMap = () => { //needs a loop and change name through route id
+  const createRouteLayerOnMap = () => {
+    //needs a loop and change name through route id
     if (routeDirections && routeDirections.geometry && routeDirections.geometry.coordinates) {
       const route = routeDirections.geometry.coordinates;
       const geojson = {
@@ -112,7 +111,7 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
           },
           layout: {
             "line-join": "round",
-            "line-cap": "round",
+            "line-cap": "round"
           },
           paint: {
             "line-color": "#3887be",
@@ -124,9 +123,9 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
       displayDepotPoint(map, depotLocation);
       console.log(routeWaypointsList[0].orderWaypoints);
       displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
-      for(let i = 0; i<(routeWaypointsList[0].orderWaypoints.length/2); i++){
-        hideLayer("Stop" + JSON.stringify(i+1));
-        hideLayer("Stop" + JSON.stringify(i+1)+ "-label");
+      for (let i = 0; i < routeWaypointsList[0].orderWaypoints.length / 2; i++) {
+        hideLayer("Stop" + JSON.stringify(i + 1));
+        hideLayer("Stop" + JSON.stringify(i + 1) + "-label");
       }
       hideLayer("route");
     }
@@ -163,7 +162,7 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
   useEffect(() => {
     console.log("This is the route directions list/object");
     console.log(routeDirections);
-    fetchRoutes();
+    setTimeout(fetchRoutes(), 1000);
     map.current.on("load", () => {
       createRouteLayerOnMap();
     });
