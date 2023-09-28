@@ -6,7 +6,7 @@ import { MapContext } from "../contexts/MapContext";
 import { OrderContext } from "../contexts/OrderContext";
 
 const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
-  const { selectedOrderList, createSelectedWaypointsList } = useContext(OrderContext);
+  const { selectedWaypointsList, createSelectedWaypointsList } = useContext(OrderContext);
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
@@ -60,23 +60,23 @@ const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
     //Add route response to routesList
     let urlList = [];
 
-    for (let routeWaypoint in routeWaypointsList) {
-      console.log(routeWaypointsList[routeWaypoint]);
-      const startLocationLat = routeWaypointsList[routeWaypoint].startLat;
-      const startLocationLong = routeWaypointsList[routeWaypoint].startLong;
-      let url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocationLat},${startLocationLong};`;
-      for (let i = 0; i < routeWaypointsList[routeWaypoint].orderWaypoints.length; i++) {
-        if (i % 2 === 0) {
-          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
-        } else if (i % 2 === 1) {
-          url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]};`;
-        }
+    // for (let routeWaypoint in routeWaypointsList) {
+    console.log(routeWaypointsList[routeWaypoint]);
+    const startLocationLat = routeWaypointsList[routeWaypoint].startLat;
+    const startLocationLong = routeWaypointsList[routeWaypoint].startLong;
+    let url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocationLat},${startLocationLong};`;
+    for (let i = 0; i < selectedWaypointsList.length; i++) {
+      if (i % 2 === 0) {
+        url += `${selectedWaypointsList[i]},`;
+      } else if (i % 2 === 1) {
+        url += `${selectedWaypointsList[i]};`;
       }
-      url += `${startLocationLat},${startLocationLong}`;
-      url += `?overview=full&geometries=geojson`;
-      url += `&access_token=${viteKey}`;
-      urlList.push(url);
     }
+    url += `${startLocationLat},${startLocationLong}`;
+    url += `?overview=full&geometries=geojson`;
+    url += `&access_token=${viteKey}`;
+    urlList.push(url);
+    // }
     setRouteUrlList(urlList);
   };
 
