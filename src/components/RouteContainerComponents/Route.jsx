@@ -14,7 +14,6 @@ const Route = ({
  : <>loading...</>
 
   return (
-
     <tr>
       <td>
         <Checkbox
