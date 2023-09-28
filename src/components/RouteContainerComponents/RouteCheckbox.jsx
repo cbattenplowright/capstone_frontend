@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Checkbox = ({
+const RouteCheckbox = ({
   route,
   routeLength,
   addToSelectedRouteList,
@@ -42,4 +42,4 @@ const Checkbox = ({
   );
 };
 
-export default Checkbox;
+export default RouteCheckbox;

@@ -1,5 +1,5 @@
 import "./RouteList.css";
-import Checkbox from "./Checkbox";
+import RouteCheckbox from "./RouteCheckbox";
 
 const Route = ({
   route,
@@ -15,7 +15,7 @@ const Route = ({
   return (
     <tr>
       <td>
-        <Checkbox
+        <RouteCheckbox
           route={route}
           routeLength={route.orders.length}
           addToSelectedRouteList={addToSelectedRouteList}
