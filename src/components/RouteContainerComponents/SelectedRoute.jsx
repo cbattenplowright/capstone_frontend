@@ -33,7 +33,7 @@ const SelectedRoute = ({ selectedRoute }) => {
 
   return (
     <div id="selected-route">
-      <h4>{selectedRoute.routeName}</h4>
+      <h4 className="route-name">{selectedRoute.routeName}</h4>
       <ul>{mappedOrders}</ul>
 
       {/* Render the modal when isModalOpen is true */}
