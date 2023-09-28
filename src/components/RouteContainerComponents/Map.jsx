@@ -162,10 +162,10 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
   useEffect(() => {
     console.log("This is the route directions list/object");
     console.log(routeDirections);
-    setTimeout(fetchRoutes(), 1000);
     map.current.on("load", () => {
       createRouteLayerOnMap();
     });
+    setTimeout(fetchRoutes(), 5000);
   }, [routeDirections]);
 
   return (

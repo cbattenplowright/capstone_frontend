@@ -55,10 +55,6 @@ const RouteContainer = () => {
     map.current.setLayoutProperty(layerId, "visibility", "none");
   };
 
-  // useEffect(() => {
-  //   setTimeout(fetchRoutes(), 1000);
-  // }, []);
-
   useEffect(() => {
     console.log(selectedRouteList);
   }, [selectedRouteList]);
