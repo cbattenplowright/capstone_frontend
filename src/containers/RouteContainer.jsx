@@ -24,12 +24,12 @@ const RouteContainer = () => {
   };
 
   const showLayer = (layerId) => {
-    map.current.setLayoutProperty(layerId, 'visibility', 'visible');
-  }
+    map.current.setLayoutProperty(layerId, "visibility", "visible");
+  };
 
   const hideLayer = (layerId) => {
-    map.current.setLayoutProperty(layerId, 'visibility', 'none')
-  }
+    map.current.setLayoutProperty(layerId, "visibility", "none");
+  };
 
   // useEffect(() => {
   //   fetchRoutes();
@@ -56,8 +56,7 @@ const RouteContainer = () => {
           />
         </div>
         <div className="map">
-          <Map map={map} fetchRoutes={fetchRoutes} showLayer={showLayer}
-            hideLayer={hideLayer}/>
+          <Map map={map} fetchRoutes={fetchRoutes} showLayer={showLayer} hideLayer={hideLayer} />
         </div>
       </div>
       <div className="selected-route-list">

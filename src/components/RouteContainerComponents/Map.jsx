@@ -3,8 +3,10 @@ import mapboxgl from "mapbox-gl";
 import "./Map.css";
 import { displayDepotPoint, displayWaypoint } from "./MapLayers";
 import { MapContext } from "../contexts/MapContext";
+import { OrderContext } from "../contexts/OrderContext";
 
-const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
+const Map = ({ map, fetchRoutes, showLayer, hideLayer }) => {
+  const { selectedOrderList, createSelectedWaypointsList } = useContext(OrderContext);
   const [routeWaypointsList, setRouteWaypointsList] = useState([]);
   const [routeUrlList, setRouteUrlList] = useState([]);
   const [routeDirections, setRouteDirections] = useState([]);
@@ -20,7 +22,17 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
   const [lat, setLat] = useState(51.500832);
   const [zoom, setZoom] = useState(11);
 
-  const depotLocation = [-0.124638,51.500832]
+  const depotLocation = [-0.124638, 51.500832];
+
+  // Select routes which adds to selectedOrderList accessible by Order Context
+  // When Generate button is pressed in Route Container
+  // take the waypoints from the addresses in the selectedOrdersList
+  // add to a selected waypoints list
+  // generate url to get directions
+  // call directions api to get route
+  // Add to routeDirections
+  // Add route layer
+  // From this route pull out the distance, time and using the order Ids from the selectedorderList POST to BE to create route
 
   const fetchRouteWaypointsList = async () => {
     const response = await fetch("http://localhost:8080/routes/all/waypoints");
@@ -29,28 +41,11 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
   };
 
   const updateRouteDistance = async (routeId, distance) => {
-    const response = await fetch(`http://localhost:8080/routes/${routeId}?distance=${distance}`,
-    {
+    const response = await fetch(`http://localhost:8080/routes/${routeId}?distance=${distance}`, {
       method: "PATCH"
     });
     const json = await response.json();
     console.log(json);
-  }
-
-  const fetchRouteDirections = async () => {
-    const response = await fetch(routeUrlList[0], {
-      method: "GET"
-    });
-    const json = await response.json();
-    console.log("This is the json returned from the directions api request");
-    console.log(json);
-    const data = await json.routes[0];
-    const routeDistance = json.routes[0].distance;
-    const {routeId} = routeWaypointsList[0];
-
-    updateRouteDistance(routeId, routeDistance);
-
-    setRouteDirections(data);
   };
 
   const createDirectionsURL = () => {
@@ -75,14 +70,30 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]},`;
         } else if (i % 2 === 1) {
           url += `${routeWaypointsList[routeWaypoint].orderWaypoints[i]};`;
-        } 
+        }
       }
-      url += `${startLocationLat},${startLocationLong}`
+      url += `${startLocationLat},${startLocationLong}`;
       url += `?overview=full&geometries=geojson`;
       url += `&access_token=${viteKey}`;
       urlList.push(url);
     }
     setRouteUrlList(urlList);
+  };
+
+  const fetchRouteDirections = async () => {
+    const response = await fetch(routeUrlList[0], {
+      method: "GET"
+    });
+    const json = await response.json();
+    console.log("This is the json returned from the directions api request");
+    console.log(json);
+    const data = await json.routes[0];
+    const routeDistance = json.routes[0].distance;
+    const { routeId } = routeWaypointsList[0];
+
+    updateRouteDistance(routeId, routeDistance);
+
+    setRouteDirections(data);
   };
 
   const createRouteLayerOnMap = () => {
@@ -110,7 +121,7 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
           },
           layout: {
             "line-join": "round",
-            "line-cap": "round",
+            "line-cap": "round"
           },
           paint: {
             "line-color": "#3887be",
@@ -122,9 +133,9 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
       displayDepotPoint(map, depotLocation);
       console.log(routeWaypointsList[0].orderWaypoints);
       displayWaypoint(map, routeWaypointsList[0].orderWaypoints);
-      for(let i = 0; i<(routeWaypointsList[0].orderWaypoints.length/2); i++){
-        hideLayer("Stop" + JSON.stringify(i+1));
-        hideLayer("Stop" + JSON.stringify(i+1)+ "-label");
+      for (let i = 0; i < routeWaypointsList[0].orderWaypoints.length / 2; i++) {
+        hideLayer("Stop" + JSON.stringify(i + 1));
+        hideLayer("Stop" + JSON.stringify(i + 1) + "-label");
       }
       hideLayer("route");
     }
@@ -169,6 +180,9 @@ const Map = ({map, fetchRoutes, showLayer, hideLayer}) => {
 
   return (
     <>
+      <button className="generate-button" onClick={createSelectedWaypointsList()}>
+        GENERATE ROUTE
+      </button>
       <div ref={mapContainer} className="map-container" />
     </>
   );
