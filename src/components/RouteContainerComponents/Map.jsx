@@ -37,7 +37,7 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
     console.log(json);
   }
 
-  const fetchRouteDirections = async () => {
+  const fetchRouteDirections = async () => { //loop through routeUrlList
     const response = await fetch(routeUrlList[0], {
       method: "GET"
     });
@@ -51,6 +51,8 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
     updateRouteDistance(routeId, routeDistance);
 
     setRouteDirections(data);
+
+    fetchRoutes();
   };
 
   const createDirectionsURL = () => {
@@ -85,7 +87,7 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
     setRouteUrlList(urlList);
   };
 
-  const createRouteLayerOnMap = () => {
+  const createRouteLayerOnMap = () => { //needs a loop and change name through route id
     if (routeDirections && routeDirections.geometry && routeDirections.geometry.coordinates) {
       const route = routeDirections.geometry.coordinates;
       const geojson = {
@@ -146,10 +148,6 @@ const Map = ({routes, map, fetchRoutes, showLayer, hideLayer}) => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, []);
-
-  useEffect(() => {
-    fetchRouteWaypointsList();
-  },[routes])
 
   // wait to output routeWaypointsList
   useEffect(() => {

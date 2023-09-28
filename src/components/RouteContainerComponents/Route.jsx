@@ -8,6 +8,11 @@ const Route = ({
   showLayer,
   hideLayer
 }) => {
+
+  const displayRouteDistance = route.distance !== 0 ?
+     <>{(route.distance/1609).toFixed(2)}</>
+ : <>loading...</>
+
   return (
 <table>
   <caption>List of Routes</caption>
@@ -35,7 +40,8 @@ const Route = ({
       </td>
       <td>{route.routeName}</td>
       <td>Bob</td>
-      <td>{(route.distance/1609).toFixed(2)}</td>
+      {/* <td>{(route.distance/1609).toFixed(2)}</td> */}
+      <td>{displayRouteDistance}</td>
       <td>3 hours</td>
       <td>{route.orders.length}</td>
     </tr>

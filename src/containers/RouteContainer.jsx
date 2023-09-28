@@ -30,7 +30,7 @@ const RouteContainer = () => {
       body: JSON.stringify({ 
         routeName: "Route 001",
         orderIds: orderIdList,
-        distance: 60.5,
+        distance: 0,
         startLocationLong: 51.500832,
         startLocationLat: -0.124638})
     };
