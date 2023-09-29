@@ -106,6 +106,18 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
           }
         };
 
+        let lineColour = null;
+
+        if(i === 0){
+          lineColour = "#1E88E5";
+        } else if (i === 1){
+          lineColour = "#D81B60";
+        } else if (i === 2){
+          lineColour = "#004D40";
+        } else{
+          lineColour = "#FFC107";
+        }
+
         // creation of route layer, can amend id for route name and change colours depending
         if (map.current.getSource("route-" + JSON.stringify(routeWaypointsList[i].routeId))) {
           map.current
@@ -124,14 +136,14 @@ const Map = ({ routes, map, fetchRoutes, showLayer, hideLayer }) => {
               "line-cap": "round"
             },
             paint: {
-              "line-color": "#3887be",
+              "line-color": lineColour,
               "line-width": 5,
               "line-opacity": 0.75
             }
           });
         }
         console.log(routeWaypointsList[i].orderWaypoints);
-        displayWaypoint(map, routeWaypointsList[i].orderWaypoints, routeWaypointsList[i].routeId);
+        displayWaypoint(map, routeWaypointsList[i].orderWaypoints, routeWaypointsList[i].routeId, lineColour);
         for (let j = 0; j < routeWaypointsList[i].orderWaypoints.length / 2; j++) {
           hideLayer(
             "route-" +

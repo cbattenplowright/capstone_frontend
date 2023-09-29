@@ -60,7 +60,7 @@ const displayDepotPoint = (map, location) => {
   }
 };
 
-const displayWaypoint = (map, orderWaypoints, routeId) => {
+const displayWaypoint = (map, orderWaypoints, routeId, lineColour) => {
   let stopCount = 1;
   for (let i = 0; i < orderWaypoints.length; i += 2) {
     let currentWaypointCoords = [orderWaypoints[i], orderWaypoints[i + 1]];
@@ -105,7 +105,7 @@ const displayWaypoint = (map, orderWaypoints, routeId) => {
         },
         paint: {
           "circle-radius": 10,
-          "circle-color": "#ff7300"
+          "circle-color": lineColour
         }
       });
       map.current.addLayer({
@@ -119,7 +119,7 @@ const displayWaypoint = (map, orderWaypoints, routeId) => {
           "text-offset": [0, -0.55],
         },
         paint: {
-          "text-color": "#000" // Text color
+          "text-color": "#FFF" // Text color
         }
       });
     }
