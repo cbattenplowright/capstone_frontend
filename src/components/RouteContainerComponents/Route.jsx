@@ -24,7 +24,7 @@ const Route = ({
           hideLayer={hideLayer}
         />
       </td>
-      <td>{route.routeName}</td>
+      <td>Route {route.id}</td>
       <td>Bob</td>
       <td>{displayRouteDistance}</td>
       <td>3 hours</td>
